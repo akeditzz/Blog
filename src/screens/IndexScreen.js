@@ -3,9 +3,10 @@ import{View,Text,StyleSheet,FlatList, Button} from 'react-native'
 import {Context} from '../context/BlogContext'
 
 
-const IndexScreen = () =>{
+const IndexScreen = () => {
 
-    const {state,addBlogPost} = useContext(Context)
+    const {state,addBlogPost} = useContext(Context);
+    
 
     return <View>
         <Button title="Add Post" onPress={addBlogPost}/>

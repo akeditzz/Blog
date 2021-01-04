@@ -15,8 +15,8 @@ const navigator = createStackNavigator({
 
 const App =  createAppContainer(navigator)
 
-export default () =>{
+export default () => {
   return <Provider>
-  <App/>
+    <App/>
   </Provider>
 }

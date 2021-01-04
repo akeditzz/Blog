@@ -10,8 +10,8 @@ const blogReducer = (state,action) => {
 
 const addBlogPost = (dispatch) => {
     return () => {
-        dispatch({type:'addBlogPost'})
+        dispatch({type:'addBlogPost'});
     };
-}
+};
 
-export const {Context,Provider} = createDataContext(blogReducer,{addBlogPost},[])
+export const {Context,Provider} = createDataContext(blogReducer,{addBlogPost},[]);
