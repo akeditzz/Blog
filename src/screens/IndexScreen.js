@@ -1,28 +1,39 @@
 import React, { useContext } from 'react'
-import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { Context } from '../context/BlogContext'
 import { Feather } from '@expo/vector-icons'
 
-const IndexScreen = () => {
+const IndexScreen = ({navigation}) => {
 
-    const { state, addBlogPost, deleteBlogPost } = useContext(Context);
+    const { state, deleteBlogPost } = useContext(Context);
 
 
     return <View style={styles.mainView}>
-        <Button title="Add Post" onPress={addBlogPost} />
         <FlatList
             data={state}
-            keyExtractor={blog => blog.title}
+            keyExtractor={blog => blog.id}
             renderItem={({ item }) => {
-                return <View style={styles.listView}>
-                    <Text style={styles.text} >{item.title}</Text>
-                    <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>  
-                        <Feather style={styles.icon} name="trash" />
-                    </TouchableOpacity>
-                </View>
+                return <TouchableOpacity onPress={() => navigation.navigate('showScreen',{id:item.id})}>
+                    <View style={styles.listView}>
+                        <Text style={styles.text} >{item.title}</Text>
+                        <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                            <Feather style={styles.icon} name="trash" />
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
             }}
         />
     </View>
+}
+
+IndexScreen.navigationOptions = ({navigation}) =>{
+    return{
+        headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('createScreen')}>
+              <Feather style={styles.createIcon}name="plus"/>
+            </TouchableOpacity>
+          )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -45,6 +56,10 @@ const styles = StyleSheet.create({
     icon: {
         fontSize: 20,
         color: 'red'
+    },
+    createIcon: {
+        fontSize: 30,
+        color: 'black'
     }
 })
 
