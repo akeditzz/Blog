@@ -15,9 +15,10 @@ const ShowScreen = ({ navigation }) => {
 }
 
 ShowScreen.navigationOptions = ({ navigation }) => {
+    let itemId = navigation.getParam('id')
     return {
         headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('editScreen')}>
+            <TouchableOpacity onPress={() => navigation.navigate('editScreen',{id:itemId})}>
                 <MaterialCommunityIcons name="pencil" style={styles.editIcon} />
             </TouchableOpacity>
         )
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         marginBottom:16
     },
     editIcon: {
-        fontSize: 30,
+        fontSize: 24,
         color: 'black'
     },
     contentText: {
