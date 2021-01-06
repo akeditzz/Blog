@@ -1,19 +1,29 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { Context } from '../context/BlogContext'
 import { Feather } from '@expo/vector-icons'
 
-const IndexScreen = ({navigation}) => {
+const IndexScreen = ({ navigation }) => {
 
-    const { state, deleteBlogPost } = useContext(Context);
+    const { state, deleteBlogPost, getBlogPost } = useContext(Context);
 
+    useEffect(() => {
+        getBlogPost()
+        const listener = navigation.addListener('didFocus',() => {
+            getBlogPost()
+        })
+
+        return () =>{
+            listener.remove()
+        }  
+    },[])
 
     return <View style={styles.mainView}>
         <FlatList
             data={state}
-            keyExtractor={blog => blog.id}
+            keyExtractor={blog => `${blog.id}`}
             renderItem={({ item }) => {
-                return <TouchableOpacity onPress={() => navigation.navigate('showScreen',{id:item.id})}>
+                return <TouchableOpacity onPress={() => navigation.navigate('showScreen', { id: item.id })}>
                     <View style={styles.listView}>
                         <Text style={styles.text} >{item.title}</Text>
                         <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
@@ -26,13 +36,13 @@ const IndexScreen = ({navigation}) => {
     </View>
 }
 
-IndexScreen.navigationOptions = ({navigation}) =>{
-    return{
+IndexScreen.navigationOptions = ({ navigation }) => {
+    return {
         headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('createScreen')}>
-              <Feather style={styles.createIcon}name="plus"/>
+                <Feather style={styles.createIcon} name="plus" />
             </TouchableOpacity>
-          )
+        )
     }
 }
 
